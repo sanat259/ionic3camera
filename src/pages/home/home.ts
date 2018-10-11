@@ -11,8 +11,9 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
 import { MediaCapture, MediaFile, CaptureError, CaptureImageOptions } from '@ionic-native/media-capture';
 
 
+// to  normalize uri
 
-
+import { normalizeURL } from 'ionic-angular'; 
 
 
 
@@ -49,7 +50,7 @@ export class HomePage {
 
 			 const options: CameraOptions = {
 					  quality: 100,
-					  destinationType: this.camera.DestinationType.FILE_URI,
+					  destinationType: this.camera.DestinationType.DATA_URL,
 					  encodingType: this.camera.EncodingType.JPEG,
 					  mediaType: this.camera.MediaType.PICTURE,
 					  correctOrientation: true,
@@ -60,10 +61,10 @@ export class HomePage {
 					this.camera.getPicture(options).then((imageData) => {
 					 // imageData is either a base64 encoded string or a file URI
 					 // If it's base64 (DATA_URL):
-					 //let myPic = 'data:image/jpeg;base64,' + imageData;
-					 let myPic = imageData;
+					 let myPic = 'data:image/jpeg;base64,' + imageData;
 					 this.photos.push(myPic);
 					 this.photos.reverse();
+					// alert(myPic);
 					 this.startCam();
 					 
 
