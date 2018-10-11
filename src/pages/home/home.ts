@@ -11,9 +11,9 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
 import { MediaCapture, MediaFile, CaptureError, CaptureImageOptions } from '@ionic-native/media-capture';
 
 
-// to  normalize uri
+// to  normalize uri, trying to use FilePath Plugin.  this would also need file path constructor
 
-import { normalizeURL } from 'ionic-angular'; 
+import { File } from '@ionic-native/file';
 
 
 
@@ -27,7 +27,7 @@ export class HomePage {
   public myPic : any;
   public flag : boolean = false;
 
-  constructor(public navCtrl: NavController, private camera : Camera, private mediaCapture: MediaCapture, private alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, private camera : Camera, private mediaCapture: MediaCapture, private alertCtrl: AlertController, private file: File) {
 
   }
 
@@ -50,7 +50,7 @@ export class HomePage {
 
 			 const options: CameraOptions = {
 					  quality: 100,
-					  destinationType: this.camera.DestinationType.DATA_URL,
+					  destinationType: this.camera.DestinationType.NATIVE_URI,
 					  encodingType: this.camera.EncodingType.JPEG,
 					  mediaType: this.camera.MediaType.PICTURE,
 					  correctOrientation: true,
@@ -61,8 +61,13 @@ export class HomePage {
 					this.camera.getPicture(options).then((imageData) => {
 					 // imageData is either a base64 encoded string or a file URI
 					 // If it's base64 (DATA_URL):
-					 let myPic = 'data:image/jpeg;base64,' + imageData;
-					 this.photos.push(myPic);
+                     // let myPic = 'data:image/jpeg;base64,' + imageData;
+
+                     let filename = imageData.substring(imageData.lastIndexOf('/')+1);
+   					 let path =  imageData.substring(0,imageData.lastIndexOf('/')+1);
+   					 //then use the method reasDataURL  btw. var_picture is ur image variable
+                     this.file.readAsDataURL(path, filename).then(res=> this.photos.push(res)); 
+					// this.photos.push(myPic);
 					 this.photos.reverse();
 					// alert(myPic);
 					 this.startCam();

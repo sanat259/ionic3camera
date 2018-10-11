@@ -14,6 +14,10 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import {Camera} from '@ionic-native/camera';
 import { MediaCapture, MediaFile, CaptureError, CaptureImageOptions } from '@ionic-native/media-capture';
 
+//importing file module
+import { File } from '@ionic-native/file';
+
+
 
 
 
@@ -46,6 +50,7 @@ import { MediaCapture, MediaFile, CaptureError, CaptureImageOptions } from '@ion
     SplashScreen,
     Camera,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
+    File,
     MediaCapture
   ]
 })
